@@ -153,14 +153,21 @@ if (registerForm) {
           return showMsg("اسم المستشفى مسجّل بالفعل.", true);
         }
 
+        // إدخال البيانات في جدول hospitals
         const { error } = await _supabase.from("hospitals").insert([row]);
-        if (error) throw error;
+        if (error) {
+          // عرض الخطأ البرمجي الحقيقي القادم من Supabase لتشخيصه بدقة
+          console.error("Supabase Insert Error:", error);
+          throw new Error(error.message || error.details || "خطأ غير معروف في قاعدة البيانات");
+        }
+
         showMsg("تم إنشاء الحساب بنجاح! في انتظار موافقة الإدارة لتفعيله.");
         toast("تم إرسال طلب تسجيل المستشفى", "success");
         registerForm.reset();
       } catch (err) {
-        console.error(err);
-        showMsg("حدث خطأ أثناء التسجيل، حاول مرة أخرى.", true);
+        console.error("Registration Exception:", err);
+        // عرض رسالة الخطأ الحقيقية للمستخدم على الشاشة
+        showMsg("خطأ أثناء التسجيل: " + (err.message || JSON.stringify(err)), true);
       } finally {
         btn.disabled = false;
       }
