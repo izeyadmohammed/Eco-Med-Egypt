@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eco Med Egypt | تسجيل مستشفى</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="supabase-config.js"></script>
+<script src="common.js"></script>
+</head>
+<body class="auth">
+<aside class="hero">
+  <div class="brand">
+    <span class="brand-mark">♻</span>
+    <span><strong>Eco Med</strong><small>EGYPT</small></span>
+  </div>
+  <h2>انضم إلى شبكة الرعاية البيئية الآمنة</h2>
+  <p>سجّل بيانات مستشفاك الآن لتتمكن من جدولة طلبات نقل المخلفات الطبية وتتبعها إلكترونياً.</p>
+  <ol class="flow">
+    <li>إنشاء حساب المستشفى وتحديد الموقع الجغرافي</li>
+    <li>مراجعة وتفعيل الحساب من إدارة المنظومة</li>
+    <li>إرسال طلبات النقل العادية والعاجلة بسهولة</li>
+    <li>تحميل تقارير الأوزان وإيصالات التسليم</li>
+  </ol>
+</aside>
+
+<main class="auth-main">
+  <div class="auth-card">
+    <a class="brand m-only" href="index.html">
+      <span class="brand-mark">♻</span>
+      <span><strong>Eco Med</strong><small>EGYPT</small></span>
+    </a>
+    <h1>تسجيل مستشفى جديدة</h1>
+    <p class="auth-sub">بعد التسجيل، سيقوم مسؤول النظام بمراجعة وتفعيل الحساب.</p>
+    <form id="registerForm">
+      <label for="hospitalName">اسم المستشفى / المركز الطبي</label>
+      <input id="hospitalName" type="text" placeholder="مثال: مستشفى النيل التخصصي" required>
+
+      <label for="phone">رقم الهاتف للتواصل والدخول</label>
+      <input id="phone" type="tel" inputmode="tel" pattern="^01[0125][0-9]{8}$" placeholder="01XXXXXXXXX" required>
+
+      <label for="address">العنوان التفصيلي</label>
+      <input id="address" type="text" placeholder="المحافظة - الحي - الشارع" required>
+
+      <label for="location">رابط الموقع على خرائط جوجل (GPS)</label>
+      <div class="input-with-btn">
+        <input id="location" type="url" pattern="https?://.+" placeholder="https://maps.google.com/..." required>
+        <button type="button" id="detectGpsBtn" class="button button-secondary" title="تحديد موقعي الحالي تلقائياً">📍 موقعي</button>
+      </div>
+
+      <label for="taxRegistry">صورة السجل الضريبي / البطاقة الضريبية</label>
+      <input id="taxRegistry" type="file" accept="image/*" required>
+
+      <label for="password">كلمة المرور (6 أحرف على الأقل)</label>
+      <input id="password" type="password" minlength="6" autocomplete="new-password" placeholder="••••••" required>
+
+      <button class="button button-primary" type="submit">إنشاء الحساب</button>
+      <p id="message" class="form-message" role="alert"></p>
+    </form>
+    <p class="auth-switch">لديك حساب بالفعل؟ <a href="index.html">تسجيل الدخول</a></p>
+  </div>
+</main>
+<script src="auth.js"></script>
+</body>
+</html>

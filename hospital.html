@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eco Med Egypt | لوحة المستشفى</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="supabase-config.js"></script>
+<script src="common.js" data-role="hospital"></script>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="hospital.html">
+    <span class="brand-mark">♻</span>
+    <span><strong>Eco Med</strong><small>EGYPT</small></span>
+  </a>
+  <div class="topbar-actions">
+    <span class="live-badge" title="تحديث تلقائي للبيانات">مباشر</span>
+    <button id="exportHospitalBtn" class="button button-secondary button-sm" type="button">📥 تصدير تقريري</button>
+    <button id="logoutBtn" class="button button-secondary button-sm" type="button">خروج</button>
+  </div>
+</header>
+
+<main class="page">
+  <section class="welcome">
+    <div>
+      <h1 id="welcomeTitle">أهلاً بك</h1>
+      <p>سجّل طلبات التخلص الآمن من المخلفات الطبية وتابع مسارها حتى إصدار إيصال المعالجة.</p>
+    </div>
+    <div class="welcome-symbol">🏥</div>
+  </section>
+
+  <section class="stats">
+    <div class="stat-card">
+      <div class="stat-top"><span class="stat-label">إجمالي طلباتي</span><span class="stat-icon">📋</span></div>
+      <strong id="myTotal">0</strong>
+      <span class="stat-sub">جميع الطلبات المسجلة</span>
+    </div>
+    <div class="stat-card">
+      <div class="stat-top"><span class="stat-label">في انتظار النقل</span><span class="stat-icon">⏳</span></div>
+      <strong id="myPending">0</strong>
+      <span class="stat-sub">بانتظار سيارة الجمع</span>
+    </div>
+    <div class="stat-card">
+      <div class="stat-top"><span class="stat-label">قيد النقل / المعالجة</span><span class="stat-icon">🚚</span></div>
+      <strong id="myTransit">0</strong>
+      <span class="stat-sub">في الطريق أو المنشأة</span>
+    </div>
+    <div class="stat-card stat-card-accent">
+      <div class="stat-top"><span class="stat-label">إجمالي الأوزان</span><span class="stat-icon">⚖️</span></div>
+      <strong><span id="myWeight">0</span> <small>كجم</small></strong>
+      <span class="stat-sub">تم تسجيلها للتخلص الآمن</span>
+    </div>
+  </section>
+
+  <section class="workspace">
+    <div class="panel form-panel">
+      <div class="section-heading"><h2>➕ طلب تخلص جديد</h2></div>
+      <form id="requestForm">
+        <label for="wasteType">تصنيف المخلفات الطبية</label>
+        <select id="wasteType" required>
+          <option value="infectious">☣️ مخلفات معدية (أكياس حمراء)</option>
+          <option value="sharps">💉 أدوات حادة ملوثة (صناديق أمان)</option>
+          <option value="pharmaceutical">💊 أدوية منتهية الصلاحية</option>
+          <option value="chemical">⚗️ مخلفات كيميائية ومعملية</option>
+          <option value="glass">🧪 زجاج طبي مكسور</option>
+          <option value="supplies">🩺 مستلزمات طبية مستهلكة</option>
+        </select>
+
+        <div class="form-row">
+          <div>
+            <label for="quantity">الكمية التقديرية (كجم)</label>
+            <input id="quantity" type="number" min="0.1" step="0.1" placeholder="مثال: 15.5" required>
+          </div>
+          <div>
+            <label for="priority">درجة الأولوية</label>
+            <select id="priority">
+              <option value="normal">عادية</option>
+              <option value="high">🔴 عاجلة (سحب فوري)</option>
+            </select>
+          </div>
+        </div>
+
+        <label for="notes">ملاحظات إضافية (اختياري)</label>
+        <textarea id="notes" rows="3" placeholder="رقم المبنى، اسم مسؤول التسليم، أو تعليمات خاصة..."></textarea>
+
+        <button class="button button-primary" type="submit">إرسال طلب النقل</button>
+        <p id="formMessage" class="form-message" role="alert"></p>
+      </form>
+    </div>
+
+    <div class="panel">
+      <div class="section-heading">
+        <h2>📦 سجل طلباتي</h2>
+      </div>
+      <div class="toolbar">
+        <input type="search" id="searchInput" placeholder="ابحث برقم الطلب أو الملاحظات...">
+        <select id="statusFilter" aria-label="تصفية حسب الحالة">
+          <option value="all">كل الحالات</option>
+          <option value="pending">في انتظار النقل</option>
+          <option value="transit">قيد النقل</option>
+          <option value="arrived">وصلت للمنشأة</option>
+          <option value="closed">تم الانتهاء</option>
+        </select>
+      </div>
+
+      <div id="emptyState" class="empty-state" hidden>لا توجد طلبات مطابقة حالياً.</div>
+      <div class="table-wrap">
+        <table id="requestsTable">
+          <thead>
+            <tr>
+              <th>رقم الطلب</th>
+              <th>التصنيف والكمية</th>
+              <th>تاريخ الطلب</th>
+              <th>حالة المسار</th>
+              <th>التفاصيل</th>
+            </tr>
+          </thead>
+          <tbody id="requestsBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">© 2026 Eco Med Egypt — منظومة الإدارة الذكية للمخلفات الطبية</footer>
+</main>
+
+<!-- نافذة تفاصيل الطلب وإيصال التسليم -->
+<div id="detailModal" class="modal-backdrop" hidden>
+  <div class="modal-card">
+    <div class="modal-header">
+      <h3 id="modalTitle">تفاصيل الطلب</h3>
+      <button type="button" class="modal-close" id="closeModalBtn">✕</button>
+    </div>
+    <div id="printManifestArea"></div>
+    <div style="display:flex; gap:10px; margin-top:16px;">
+      <button type="button" class="button button-primary" style="flex:1" onclick="window.print()">🖨️ طباعة إيصال التسليم</button>
+      <button type="button" class="button button-secondary" id="cancelPendingBtn" hidden>إلغاء الطلب</button>
+    </div>
+  </div>
+</div>
+
+<script src="hospital.js"></script>
+</body>
+</html>

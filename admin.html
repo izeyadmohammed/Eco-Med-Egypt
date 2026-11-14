@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eco Med Egypt | إدارة المستشفيات</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="supabase-config.js"></script>
+<script src="common.js" data-role="owner"></script>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="dashboard.html">
+    <span class="brand-mark">♻</span>
+    <span><strong>Eco Med</strong><small>EGYPT</small></span>
+  </a>
+  <div class="topbar-actions">
+    <a href="dashboard.html" class="button button-secondary button-sm">📋 لوحة الطلبات</a>
+    <button id="logoutBtn" class="button button-secondary button-sm" type="button">خروج</button>
+  </div>
+</header>
+
+<main class="page">
+  <section class="welcome">
+    <div>
+      <h1>إدارة حسابات المستشفيات</h1>
+      <p>راجع طلبات انضمام المستشفيات الجديدة، فعّل الحسابات، وتابع حجم نشاط كل مستشفى.</p>
+    </div>
+    <div class="welcome-symbol">🏥</div>
+  </section>
+
+  <section class="stats" style="grid-template-columns: repeat(3, 1fr);">
+    <div class="stat-card">
+      <div class="stat-top"><span class="stat-label">إجمالي المستشفيات</span><span class="stat-icon">🏥</span></div>
+      <strong id="hospTotal">0</strong>
+    </div>
+    <div class="stat-card">
+      <div class="stat-top"><span class="stat-label">حسابات مفعّلة</span><span class="stat-icon">✅</span></div>
+      <strong id="hospApproved">0</strong>
+    </div>
+    <div class="stat-card">
+      <div class="stat-top"><span class="stat-label">بانتظار الموافقة</span><span class="stat-icon">⏳</span></div>
+      <strong id="hospPending">0</strong>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="section-heading"><h2>قائمة المستشفيات المسجّلة</h2></div>
+    <div class="toolbar">
+      <input type="search" id="hospSearch" placeholder="ابحث باسم المستشفى، رقم الهاتف، أو العنوان...">
+      <select id="hospFilter">
+        <option value="all">جميع الحسابات</option>
+        <option value="pending">في انتظار الموافقة</option>
+        <option value="approved">المفعّلة فقط</option>
+      </select>
+    </div>
+    <div id="hospitalsList" class="hospital-grid"></div>
+  </section>
+
+  <footer class="footer">© 2026 Eco Med Egypt — إدارة المستشفيات والصلاحيات</footer>
+</main>
+
+<!-- نافذة تغيير كلمة المرور للمستشفى -->
+<div id="passModal" class="modal-backdrop" hidden>
+  <div class="modal-card" style="max-width:420px;">
+    <div class="modal-header">
+      <h3 id="passModalTitle">تغيير كلمة المرور</h3>
+      <button type="button" class="modal-close" id="closePassModal">✕</button>
+    </div>
+    <form id="passForm">
+      <label for="newPassInput">كلمة المرور الجديدة (6 أحرف على الأقل)</label>
+      <input id="newPassInput" type="text" minlength="6" placeholder="أدخل كلمة المرور الجديدة" required>
+      <button type="submit" class="button button-primary">حفظ كلمة المرور</button>
+    </form>
+  </div>
+</div>
+
+<script src="admin.js"></script>
+</body>
+</html>

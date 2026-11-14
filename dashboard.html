@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eco Med Egypt | لوحة تحكم المالك</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="supabase-config.js"></script>
+<script src="common.js" data-role="owner"></script>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="dashboard.html">
+    <span class="brand-mark">♻</span>
+    <span><strong>Eco Med</strong><small>EGYPT</small></span>
+  </a>
+  <div class="topbar-actions">
+    <span class="live-badge" title="تحديث لحظي">مباشر</span>
+    <a href="admin.html" class="button button-secondary button-sm">🏥 المستشفيات <span id="pendingHospBadge" class="tag-high" hidden>0</span></a>
+    <a href="presentation.html" class="button button-secondary button-sm">📊 العرض التقديمي</a>
+    <button id="exportAllBtn" class="button button-secondary button-sm" type="button">📥 تصدير CSV</button>
+    <button id="logoutBtn" class="button button-secondary button-sm" type="button">خروج</button>
+  </div>
+</header>
+
+<main class="page">
+  <section class="welcome">
+    <div>
+      <h1>مركز القيادة والمتابعة</h1>
+      <p>إدارة شاملة لطلبات نقل المخلفات الطبية من جميع المستشفيات، وتحليل الأوزان والعمليات لحظياً.</p>
+    </div>
+    <div class="welcome-symbol">♻</div>
+  </section>
+
+  <section class="stats">
+    <div class="stat-card">
+      <div class="stat-top"><span class="stat-label">إجمالي الطلبات</span><span class="stat-icon">📦</span></div>
+      <strong id="totalRequests">0</strong>
+      <span class="stat-sub">من <span id="activeHospCount">0</span> مستشفى</span>
+    </div>
+    <div class="stat-card">
+      <div class="stat-top"><span class="stat-label">في انتظار النقل</span><span class="stat-icon">⏳</span></div>
+      <strong id="pendingRequests">0</strong>
+      <span class="stat-sub"><span id="urgentCount">0</span> طلبات عاجلة</span>
+    </div>
+    <div class="stat-card">
+      <div class="stat-top"><span class="stat-label">قيد النقل الآن</span><span class="stat-icon">🚚</span></div>
+      <strong id="transitRequests">0</strong>
+      <span class="stat-sub"><span id="completedCount">0</span> مكتملة</span>
+    </div>
+    <div class="stat-card stat-card-accent">
+      <div class="stat-top"><span class="stat-label">إجمالي الأوزان المعالجة</span><span class="stat-icon">⚖️</span></div>
+      <strong><span id="totalWeight">0</span> <small>كجم</small></strong>
+      <span class="stat-sub">إجمالي الكميات المسجلة</span>
+    </div>
+  </section>
+
+  <!-- التحليلات البيانية -->
+  <section class="analytics-grid">
+    <div class="panel" style="margin-bottom:0">
+      <div class="section-heading"><h2>📊 توزيع الأوزان حسب نوع المخلفات</h2></div>
+      <div id="wasteChart" class="bar-list"></div>
+    </div>
+    <div class="panel" style="margin-bottom:0">
+      <div class="section-heading"><h2>🏆 أكثر المستشفيات نشاطاً (بالكجم)</h2></div>
+      <div id="hospitalChart" class="bar-list"></div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="section-heading">
+      <h2>🚚 جدول إدارة طلبات النقل</h2>
+    </div>
+
+    <div class="toolbar">
+      <input type="search" id="searchInput" placeholder="ابحث باسم المستشفى، رقم الطلب، أو الملاحظات...">
+      <select id="priorityFilter" aria-label="تصفية حسب الأولوية">
+        <option value="all">كل الأولويات</option>
+        <option value="high">🔴 العاجلة فقط</option>
+        <option value="normal">العادية فقط</option>
+      </select>
+      <select id="statusFilter" aria-label="تصفية حسب الحالة">
+        <option value="all">كل الحالات</option>
+        <option value="pending">في انتظار النقل</option>
+        <option value="transit">قيد النقل</option>
+        <option value="arrived">وصلت للمنشأة</option>
+        <option value="closed">تم الانتهاء</option>
+      </select>
+    </div>
+
+    <div id="emptyState" class="empty-state" hidden>لا توجد طلبات مطابقة.</div>
+    <div class="table-wrap">
+      <table id="requestsTable">
+        <thead>
+          <tr>
+            <th>رقم الطلب</th>
+            <th>المستشفى والموقع</th>
+            <th>التصنيف والكمية</th>
+            <th>التوقيت</th>
+            <th>الحالة</th>
+            <th>إجراءات سريعة</th>
+          </tr>
+        </thead>
+        <tbody id="requestsBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer class="footer">© 2026 Eco Med Egypt — لوحة الإدارة المركزية</footer>
+</main>
+
+<!-- نافذة معاينة الطلب وبيانات المستشفى -->
+<div id="ownerModal" class="modal-backdrop" hidden>
+  <div class="modal-card">
+    <div class="modal-header">
+      <h3 id="ownerModalTitle">تفاصيل الطلب</h3>
+      <button type="button" class="modal-close" id="closeOwnerModal">✕</button>
+    </div>
+    <div id="ownerModalBody"></div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

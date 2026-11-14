@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eco Med Egypt | تسجيل الدخول</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="supabase-config.js"></script>
+<script src="common.js"></script>
+</head>
+<body class="auth">
+<aside class="hero">
+  <div class="brand">
+    <span class="brand-mark">♻</span>
+    <span><strong>Eco Med</strong><small>EGYPT</small></span>
+  </div>
+  <h2>من المستشفى إلى المعالجة الآمنة</h2>
+  <p>منصة ذكية لتنظيم وتتبع التخلص الآمن من المخلفات الطبية في مصر لحظة بلحظة وبإيصالات رقمية موثقة.</p>
+  <ol class="flow">
+    <li>تسجيل طلب التخلص وتحديد النوع والوزن</li>
+    <li>استلام الشحنة وبدء النقل الآمن</li>
+    <li>الوصول لمنشأة المعالجة المعتمدة</li>
+    <li>إغلاق الطلب وإصدار شهادة التخلص</li>
+  </ol>
+</aside>
+
+<main class="auth-main">
+  <div class="auth-card">
+    <a class="brand m-only" href="index.html">
+      <span class="brand-mark">♻</span>
+      <span><strong>Eco Med</strong><small>EGYPT</small></span>
+    </a>
+    <h1>تسجيل الدخول</h1>
+    <p class="auth-sub">أدخل رقم الهاتف وكلمة المرور للمتابعة.</p>
+    <form id="loginForm">
+      <label for="phone">رقم الهاتف</label>
+      <input id="phone" type="tel" inputmode="tel" autocomplete="username" placeholder="01XXXXXXXXX" required>
+
+      <label for="password">كلمة المرور</label>
+      <div class="input-with-btn">
+        <input id="password" type="password" autocomplete="current-password" placeholder="••••••••" required>
+        <button type="button" id="togglePass" class="button button-secondary" aria-label="إظهار كلمة المرور">👁️</button>
+      </div>
+
+      <button class="button button-primary" type="submit">دخول إلى المنصة</button>
+      <p id="message" class="form-message" role="alert"></p>
+    </form>
+    <p class="auth-switch">مستشفى جديدة؟ <a href="register.html">إنشاء حساب مستشفى</a></p>
+  </div>
+</main>
+<script src="auth.js"></script>
+</body>
+</html>

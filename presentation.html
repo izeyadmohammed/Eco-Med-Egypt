@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>العرض التقديمي | Eco Med Egypt</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="common.js"></script>
+  <style>
+    .slide-container {
+      display: none;
+      min-height: 68vh;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 44px 24px;
+      animation: slideFade 0.35s ease;
+    }
+    .slide-container.active { display: flex; }
+    @keyframes slideFade {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .slide-badge {
+      padding: 4px 14px;
+      border-radius: 99px;
+      background: color-mix(in srgb, var(--accent) 16%, transparent);
+      color: var(--accent);
+      font-size: 12.5px;
+      font-weight: 800;
+      margin-bottom: 14px;
+    }
+    .slide-container h1 { font-size: clamp(28px, 4vw, 42px); color: var(--accent); margin-bottom: 14px; }
+    .slide-container h2 { font-size: clamp(22px, 3vw, 30px); margin-bottom: 16px; }
+    .slide-container p { font-size: 16.5px; color: var(--muted); max-width: 640px; line-height: 1.85; }
+    .slide-container ul {
+      text-align: right;
+      font-size: 16px;
+      color: var(--ink);
+      line-height: 2.1;
+      margin-top: 14px;
+      max-width: 650px;
+      list-style: none;
+      padding: 0;
+    }
+    .slide-container li {
+      padding: 10px 16px;
+      margin-bottom: 10px;
+      background: var(--panel2);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+    }
+    .controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      margin-top: 22px;
+    }
+    .slide-counter { font-weight: 800; color: var(--muted); font-size: 14px; min-width: 70px; text-align: center; }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">♻</span>
+      <span><strong>Eco Med</strong><small>PRESENTATION</small></span>
+    </a>
+    <div class="topbar-actions">
+      <a href="dashboard.html" class="button button-secondary button-sm">لوحة التحكم</a>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="slide-container active panel">
+      <span class="slide-badge">منصة إدارة المخلفات الطبية الذكية</span>
+      <h1>Eco Med Egypt</h1>
+      <h2>نظام رقمي متكامل لتنظيم وتتبع المخلفات الطبية في مصر</h2>
+      <p>حل تقني يربط المستشفيات والمراكز الطبية بمنظومة النقل والمعالجة الآمنة عبر قاعدة بيانات سحابية لحظية وإيصالات رقمية موثقة.</p>
+    </section>
+
+    <section class="slide-container panel">
+      <span class="slide-badge">01 • التحدي</span>
+      <h2>المشكلة الحالية (The Problem)</h2>
+      <ul>
+        <li>📄 الاعتماد على السجلات الورقية والمكالمات الهاتفية مما يسبب تأخير سحب المخلفات الخطرة.</li>
+        <li>🔍 غياب الشفافية في تتبع مسار الشحنة بعد خروجها من المستشفى.</li>
+        <li>📊 صعوبة حصر الأوزان والتصنيفات (معدية، حادة، كيميائية) وإصدار تقارير دورية دقيقة.</li>
+      </ul>
+    </section>
+
+    <section class="slide-container panel">
+      <span class="slide-badge">02 • الابتكار</span>
+      <h2>الحل الذكي (Our Solution)</h2>
+      <ul>
+        <li>🌐 منصة ويب سحابية مركزية تربط المستشفيات بإدارة النقل في الوقت الفعلي (Realtime).</li>
+        <li>🚚 تتبع رباعي المراحل: في انتظار النقل ← قيد النقل ← وصلت للمنشأة ← تم الانتهاء.</li>
+        <li>🧾 إصدار إيصالات تسليم قابلة للطباعة وتقارير CSV إحصائية بضغطة زر.</li>
+      </ul>
+    </section>
+
+    <section class="slide-container panel">
+      <span class="slide-badge">03 • الأطراف المستفيدة</span>
+      <h2>أدوار المستخدمين (System Roles)</h2>
+      <ul>
+        <li><strong>🏥 المستشفى:</strong> تسجيل الحساب مع تحديد الموقع الجغرافي (GPS)، إنشاء طلبات السحب العادية والعاجلة، ومتابعة الإيصالات.</li>
+        <li><strong>🛡️ مالك النظام (Admin):</strong> اعتماد تفعيل المستشفيات، مراقبة لوحة التحليلات البيانية، وتحديث حالات النقل لحظياً.</li>
+      </ul>
+    </section>
+
+    <section class="slide-container panel">
+      <span class="slide-badge">04 • البنية التقنية</span>
+      <h2>التقنيات المستخدمة (Tech Stack)</h2>
+      <ul>
+        <li><strong>HTML5 / Modern CSS3:</strong> واجهة متجاوبة بالكامل (Responsive) تدعم الوضع الليلي والنهاري وتنسيقات الطباعة.</li>
+        <li><strong>Vanilla JavaScript (ES6+):</strong> نظام صلاحيات، تحليلات بيانية، وتصدير تقارير بدون مكتبات ثقيلة.</li>
+        <li><strong>Supabase Cloud & Realtime:</strong> قاعدة بيانات PostgreSQL سحابية مع مزامنة فورية للتحديثات.</li>
+      </ul>
+    </section>
+
+    <section class="slide-container panel">
+      <span class="slide-badge">05 • الرؤية المستقبلية</span>
+      <h2>التطوير المستقبلي (Future Roadmap)</h2>
+      <ul>
+        <li>📱 تطبيق موبايل مخصص لسائقي سيارات النقل لتأكيد الاستلام بمسح رمز QR.</li>
+        <li>🤖 تنبيهات ذكية للتنبؤ بمواعيد امتلاء حاويات المخلفات في كل مستشفى.</li>
+        <li>🏛️ التكامل المباشر مع اشتراطات وزارة الصحة وجهاز شؤون البيئة.</li>
+      </ul>
+    </section>
+
+    <section class="slide-container panel">
+      <span class="slide-badge">Eco Med Egypt</span>
+      <h1>شكراً لحسن استماعكم</h1>
+      <p>نرحب بأسئلتكم ومقترحاتكم لتطوير المنظومة.</p>
+    </section>
+
+    <div class="controls">
+      <button id="prevBtn" class="button button-secondary" disabled>→ السابق</button>
+      <span id="slideCounter" class="slide-counter">1 / 7</span>
+      <button id="nextBtn" class="button button-primary">التالي ←</button>
+    </div>
+  </main>
+
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll(".slide-container");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const counter = document.getElementById("slideCounter");
+
+    function updateSlides() {
+      slides.forEach((s, idx) => s.classList.toggle("active", idx === currentSlide));
+      prevBtn.disabled = currentSlide === 0;
+      nextBtn.disabled = currentSlide === slides.length - 1;
+      counter.textContent = `${currentSlide + 1} / ${slides.length}`;
+    }
+
+    nextBtn.addEventListener("click", () => { if (currentSlide < slides.length - 1) { currentSlide++; updateSlides(); } });
+    prevBtn.addEventListener("click", () => { if (currentSlide > 0) { currentSlide--; updateSlides(); } });
+
+    document.addEventListener("keydown", e => {
+      if (e.key === "ArrowLeft") nextBtn.click();
+      if (e.key === "ArrowRight") prevBtn.click();
+    });
+  </script>
+</body>
+</html>
