@@ -133,27 +133,31 @@ function draw() {
     return `<tr>
       <td data-label="رقم الطلب"><span class="request-id">${esc(reqCode(r.id))}</span></td>
       <td data-label="المستشفى والموقع">
-        <strong>${esc(r.hospital_name)}</strong>
-        ${h ? `<div style="font-size:12px; color:var(--muted);">
-          <a href="${esc(safeUrl(h.location))}" target="_blank" rel="noopener">📍 الخريطة</a> •
-          <a href="tel:${esc(h.phone)}">📞 ${esc(h.phone)}</a>
-        </div>` : ""}
+        <div class="cell-val">
+          <strong>${esc(r.hospital_name)}</strong>
+          ${h ? `<div class="cell-sub">
+            <a href="${esc(safeUrl(h.location))}" target="_blank" rel="noopener">📍 الخريطة</a> •
+            <a href="tel:${esc(h.phone)}" dir="ltr" class="ltr-inline">📞 ${esc(h.phone)}</a>
+          </div>` : ""}
+        </div>
       </td>
       <td data-label="التصنيف والكمية">
-        ${icon} ${esc(WASTE[r.waste_type] || r.waste_type)} — <strong>${esc(r.quantity)} كجم</strong>
-        ${r.priority === "high" ? '<span class="tag-high">عاجل</span>' : ""}
-        ${r.notes ? `<span class="note-preview">${esc(r.notes)}</span>` : ""}
+        <div class="cell-val">
+          <span>${icon} ${esc(WASTE[r.waste_type] || r.waste_type)} — <strong>${esc(r.quantity)} كجم</strong></span>
+          ${r.priority === "high" ? '<span class="tag-high">عاجل</span>' : ""}
+          ${r.notes ? `<span class="note-preview">${esc(r.notes)}</span>` : ""}
+        </div>
       </td>
-      <td data-label="التوقيت"><small style="color:var(--muted)">${esc(fmtDate(r.created_at))}</small></td>
+      <td data-label="التوقيت"><small class="cell-date">${esc(fmtDate(r.created_at))}</small></td>
       <td data-label="الحالة"><span class="status status-${esc(r.status)}">${esc(STATUS[r.status] || r.status)}</span></td>
-      <td data-label="إجراءات سريعة">
+      <td data-label="إجراءات سريعة" class="td-actions">
         <div class="row-tools">
-          ${next ? `<button type="button" class="button button-primary button-sm" data-step="${esc(r.id)}" data-to="${next.to}">${next.label}</button>` : ""}
+          ${next ? `<button type="button" class="button button-primary button-sm btn-step" data-step="${esc(r.id)}" data-to="${next.to}">${next.label}</button>` : ""}
           <select data-id="${esc(r.id)}" aria-label="تغيير الحالة">
             ${Object.entries(STATUS).map(([k, v]) => `<option value="${k}" ${k === r.status ? "selected" : ""}>${v}</option>`).join("")}
           </select>
-          <button type="button" class="button button-secondary button-sm" data-info="${esc(r.id)}" title="التفاصيل">👁️</button>
-          <button type="button" class="button button-danger" data-del="${esc(r.id)}" title="حذف">🗑️</button>
+          <button type="button" class="button button-secondary button-sm btn-icon" data-info="${esc(r.id)}" title="التفاصيل" aria-label="تفاصيل الطلب">👁️</button>
+          <button type="button" class="button button-danger btn-icon" data-del="${esc(r.id)}" title="حذف" aria-label="حذف الطلب">🗑️</button>
         </div>
       </td>
     </tr>`;

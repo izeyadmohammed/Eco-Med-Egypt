@@ -48,16 +48,20 @@ function draw() {
     return `<tr>
       <td data-label="رقم الطلب"><span class="request-id">${esc(reqCode(r.id))}</span></td>
       <td data-label="التصنيف والكمية">
-        <strong>${icon} ${esc(WASTE[r.waste_type] || r.waste_type)}</strong> — ${esc(r.quantity)} كجم
-        ${r.priority === "high" ? '<span class="tag-high">عاجل</span>' : ""}
-        ${r.notes ? `<span class="note-preview">${esc(r.notes)}</span>` : ""}
+        <div class="cell-val">
+          <strong>${icon} ${esc(WASTE[r.waste_type] || r.waste_type)}</strong> — ${esc(r.quantity)} كجم
+          ${r.priority === "high" ? '<span class="tag-high">عاجل</span>' : ""}
+          ${r.notes ? `<span class="note-preview">${esc(r.notes)}</span>` : ""}
+        </div>
       </td>
-      <td data-label="تاريخ الطلب"><small style="color:var(--muted)">${esc(fmtDate(r.created_at))}</small></td>
+      <td data-label="تاريخ الطلب"><small class="cell-date">${esc(fmtDate(r.created_at))}</small></td>
       <td data-label="حالة المسار">
-        <span class="status status-${esc(r.status)}">${esc(STATUS[r.status] || r.status)}</span>
-        ${renderStepper(r.status)}
+        <div class="status-cell">
+          <span class="status status-${esc(r.status)}">${esc(STATUS[r.status] || r.status)}</span>
+          ${renderStepper(r.status)}
+        </div>
       </td>
-      <td data-label="التفاصيل">
+      <td data-label="التفاصيل" class="td-actions">
         <button type="button" class="button button-secondary button-sm" data-view="${esc(r.id)}">📄 الإيصال</button>
       </td>
     </tr>`;

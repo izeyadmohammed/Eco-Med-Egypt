@@ -63,8 +63,8 @@ function draw() {
           <span class="status ${ok ? "status-arrived" : "status-pending"}">${ok ? "حساب مفعّل" : "في انتظار الموافقة"}</span>
         </div>
         <div class="hospital-meta">
-          <span>📞 <a href="tel:${esc(u.phone)}">${esc(u.phone)}</a></span>
-          <span>📍 ${esc(u.address)}</span>
+          <span>📞 <a href="tel:${esc(u.phone)}" dir="ltr" class="ltr-inline">${esc(u.phone)}</a></span>
+          <span class="hosp-address">📍 ${esc(u.address)}</span>
           <a href="${esc(safeUrl(u.location))}" target="_blank" rel="noopener noreferrer">🗺️ فتح على الخريطة ↗</a>
         </div>
         <div class="hospital-meta">
